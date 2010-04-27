@@ -1,0 +1,89 @@
+@font-face {
+	font-family: 'OFLSortsMillGoudyRegular';
+	src: url('fonts/OFLGoudyStM.eot');
+	src: local('☺'), url('OFLGoudyStM.ttf') format('truetype'), url('fonts/OFLGoudyStM.svg#webfont') format('svg');
+}
+
+@font-face {
+	font-family: 'OFLSortsMillGoudyItalic';
+	src: url('fonts/OFLGoudyStM-Italic.eot');
+	src: local('☺'), url('OFLGoudyStM-Italic.ttf') format('truetype'), url('fonts/OFLGoudyStM-Italic.svg#webfont') format('svg');
+}
+
+@font-face {
+	font-family: 'BallparkWeiner';
+	src: url('fonts/ballpark_weiner.eot');
+	src: local('☺'), url('ballpark_weiner.ttf') format('truetype'), url('fonts/ballpark_weiner.svg#webfont') format('svg');
+}
+
+@font-face {
+	font-family: 'QlassikMediumRegular';
+	src: url('fonts/Qlassik_TB.eot');
+	src: local('☺'), url('Qlassik_TB.ttf') format('truetype'), url('fonts/Qlassik_TB.svg#webfont') format('svg');
+}
+
+@font-face {
+	font-family: 'QlassikBoldRegular';
+	src: url('fonts/QlassikBold_TB.eot');
+	src: local('☺'), url('QlassikBold_TB.ttf') format('truetype'), url('fonts/QlassikBold_TB.svg#webfont') format('svg');
+}
+
+html{
+    background:#72915b url(images/topleft.png) no-repeat;
+}
+
+body{
+    margin:2em 0 0 4em;
+    padding:0;
+    color:#2b312e;
+    font:12px/1 'QlassikMediumRegular', freesans, sans-serif;
+}
+
+a, a.visited{
+    color:#345e69;
+    text-decoration:none;
+}
+
+a.current, a:hover{
+    color:#435556;
+}
+
+#header_container{
+    padding-bottom:.8em;
+    color:#000;
+    font-size:9em;
+    font-family:'BallparkWeiner', serif;
+}
+
+#header_container em{
+    color:#345e69;
+}
+
+#header_container a, #header_container a.visited{
+    color:#000;
+}
+
+#header_container a.current, #header_container a:hover{
+    color:#444;
+    border-bottom:.1em dashed #222;
+}
+
+#content_container{
+    width:700px;
+    margin-left:3em;
+    font-size:2em;
+}
+
+.content_post{
+    text-indent:2em;
+    padding-bottom:1.4em;
+    text-align:left;
+}
+
+.content_post :first-word{
+    font-weight:bold;
+}
+
+.post_sig{
+    text-align:right;
+}
