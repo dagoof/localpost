@@ -10,20 +10,26 @@ app=web.application(urls, globals())
 
 Users=pycassa.ColumnFamily(client, 'localpost', 'Users')
 UserName=pycassa.ColumnFamily(client, 'localpost', 'UserName')
+Post=pycassa.ColumnFamily(client, 'localpost', 'post')
+PostOrder=pycassa.ColumnFamily(client, 'localpost', 'postorder')
 
 class ListUser:
 	def GET(self):
-		return render.index([Users.get(un) for un in UserName.get('id').values()])
-	#return render.index([u[1] for u in Users.get_range()])
+		return render.index([u[1] for u in Users.get_range()])
 
 class User:
 	def GET(self, Name):
 		try:
-			name=Users.get(UserName.get('id')[Name])
+			user=Users.get(UserName.get(Name)['id'])
 		except:
-			name=Users.get(UserName.get('id')['404'])
+			return render.fourohfour()
+		else:
+			try:
+				posts=[Post.get(id) for id in PostOrder.get(user['id']).values()]
+			except:
+				posts=[]
 
-		return render.base_template({'name':name['name'], 'd':name, 'posts':['testpost', 'testpost2']})
+		return render.base_template(user, posts)
 
 if __name__=='__main__':
 	app.run()
