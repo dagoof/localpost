@@ -1,4 +1,5 @@
 import web, pycassa
+from odict import OrderedDict
 
 client=pycassa.connect()
 render=web.template.render('templates/')
@@ -11,7 +12,7 @@ app=web.application(urls, globals())
 Users=pycassa.ColumnFamily(client, 'localpost', 'Users')
 UserName=pycassa.ColumnFamily(client, 'localpost', 'UserName')
 Post=pycassa.ColumnFamily(client, 'localpost', 'post')
-PostOrder=pycassa.ColumnFamily(client, 'localpost', 'postorder')
+PostOrder=pycassa.ColumnFamily(client, 'localpost', 'postorder', dict_class=OrderedDict)
 
 class ListUser:
 	def GET(self):
