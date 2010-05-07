@@ -1,3 +1,6 @@
+from gevent import monkey; monkey.patch_all()
+from gevent.wsgi import WSGIServer
+import gevent
 import web, pycassa
 from odict import OrderedDict
 
@@ -7,7 +10,6 @@ urls=(
 	'/user/(.*)', 'User',
 	'/list', 'ListUser',
 )
-app=web.application(urls, globals())
 
 Users=pycassa.ColumnFamily(client, 'localpost', 'Users')
 UserName=pycassa.ColumnFamily(client, 'localpost', 'UserName')
@@ -19,18 +21,25 @@ class ListUser:
 		return render.index([u[1] for u in Users.get_range()])
 
 class User:
-	def GET(self, Name):
-		try:
-			user=Users.get(UserName.get(Name)['id'])
-		except:
-			return render.fourohfour()
-		else:
-			try:
-				posts=[Post.get(id) for id in PostOrder.get(user['id']).values()]
-			except:
-				posts=[]
+    def GET(self, name):
+        def get_userid(name):
+            try:
+                return Users.get(UserName.get(name)['id'])
+            except pycassa.NotFoundException:
+                return False
 
-		return render.base_template(user, posts)
+        def get_posts(userid):
+            try:
+                return [Post.get(id) for id in PostOrder.get(userid).values()]
+            except pycassa.NotFoundException:
+                return []
+
+        user=get_userid(name)
+        if user:
+            return render.base_template(user, get_posts(user['id']))
 
 if __name__=='__main__':
-	app.run()
+    app=web.application(urls, globals())#.wsgifunc()
+    print 'serving on 8088'
+    #WSGIServer(('', 8088), app).serve_forever()
+    app.run()
