@@ -30,7 +30,12 @@ class User:
 
         def get_posts(userid):
             try:
-                return [Post.get(id) for id in PostOrder.get(userid).values()]
+                posts=[Post.get(id) for id in PostOrder.get(userid).values()]
+                for post in posts:
+                    post['first']=post['body'].split(' ')[0]
+                    post['body_remainder']=' '.join(post['body'].split(' ')[1:])
+                return posts
+                #return [Post.get(id) for id in PostOrder.get(userid).values()]
             except pycassa.NotFoundException:
                 return []
 
