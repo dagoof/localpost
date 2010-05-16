@@ -30,7 +30,7 @@ class User:
 
         def get_posts(userid):
             try:
-                posts=[Post.get(id) for id in PostOrder.get(userid).values()]
+                posts=[Post.get(id) for id in PostOrder.get(userid, column_reversed=True).values()]
                 for post in posts:
                     post['first']=post['body'].split(' ')[0]
                     post['body_remainder']=' '.join(post['body'].split(' ')[1:])

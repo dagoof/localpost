@@ -1,7 +1,7 @@
 @font-face {
 	font-family: 'GoudyBookletter1911Regular';
-	src: url('fonts/goudy_bookletter_1911-webfont.eot');
-	src: local('☺'), url('fonts/goudy_bookletter_1911-webfont.woff') format('woff'), url('fonts/goudy_bookletter_1911-webfont.ttf') format('truetype'), url('fonts/goudy_bookletter_1911-webfont.svg#webfont') format('svg');
+	src: url('/static/fonts/goudy_bookletter_1911-webfont.eot');
+	src: local('☺'), url('/static/fonts/goudy_bookletter_1911-webfont.woff') format('woff'), url('/static/fonts/goudy_bookletter_1911-webfont.ttf') format('truetype'), url('/static/fonts/goudy_bookletter_1911-webfont.svg#webfont') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -53,9 +53,15 @@ a.current, a:hover{
 }
 
 .content_post{
-    padding-bottom:1.4em;
+    padding:.7em 1em;
     text-align:left;
-    border:1px solid black;
+    line-height:1.2em;
+    /*border-bottom:1px solid #515562;*/
+}
+
+.odd{
+    background-color:#404553;
+    border-radius:.6em;
 }
 
 .post_sig{
