@@ -1,15 +1,22 @@
-from gevent import monkey; monkey.patch_all()
-from gevent.wsgi import WSGIServer
-import gevent
-import web, pycassa
-import time, struct
+import web, pycassa, time, struct, os
 from odict import OrderedDict
+from jinja2 import Environment,FileSystemLoader
 
 client=pycassa.connect()
-render=web.template.render('templates/')
+#render=web.template.render('templates/')
+def render_template(template_name, **context):
+    extensions=context.pop('extensions', [])
+    globals=context.pop('globals',{})
+    jinja_env=Environment(
+        loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')),
+        extensions=extensions,
+    )
+    jinja_env.globals.update(globals)
+    return jinja_env.get_template(template_name).render(context)
+
 urls=(
-	'/user/(.*)', 'User',
-	'/list', 'ListUser',
+    '/user/(.*)', 'User',
+    '/list', 'ListUser',
 )
 
 Users=pycassa.ColumnFamily(client, 'localpost', 'Users')
@@ -18,8 +25,8 @@ Post=pycassa.ColumnFamily(client, 'localpost', 'post')
 PostOrder=pycassa.ColumnFamily(client, 'localpost', 'postorder', dict_class=OrderedDict)
 
 class ListUser:
-	def GET(self):
-		return render.index([u[1] for u in Users.get_range()])
+    def GET(self):
+        return render_template('index.html', users=[u[1] for u in Users.get_range()])
 
 class User:
     def GET(self, name):
@@ -42,10 +49,9 @@ class User:
 
         user=get_userid(name)
         if user:
-            return render.base_template(user, get_posts(user['id']))
+            return render_template('base_template.html', user=user, posts=get_posts(user['id']))
 
 if __name__=='__main__':
-    app=web.application(urls, globals())#.wsgifunc()
+    app=web.application(urls, globals())
     print 'serving on 8088'
-    #WSGIServer(('', 8088), app).serve_forever()
     app.run()
