@@ -72,3 +72,9 @@ a.current, a:hover{
     vertical-align:bottom;
     font-size:.6em;
 }
+
+.post_sig a{
+    font-size:.8em;
+    font-weight:normal;
+    text-shadow:1px 1px 0px #393e4d;
+}

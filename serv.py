@@ -2,6 +2,7 @@ from gevent import monkey; monkey.patch_all()
 from gevent.wsgi import WSGIServer
 import gevent
 import web, pycassa
+import time, struct
 from odict import OrderedDict
 
 client=pycassa.connect()
@@ -30,12 +31,12 @@ class User:
 
         def get_posts(userid):
             try:
-                posts=[Post.get(id) for id in PostOrder.get(userid, column_reversed=True).values()]
-                for post in posts:
-                    post['first']=post['body'].split(' ')[0]
-                    post['body_remainder']=' '.join(post['body'].split(' ')[1:])
+                posts=[]
+                for post in PostOrder.get(userid, column_reversed=True).values():
+                    p=Post.get(post)
+                    p['tstring']=time.strftime(' %I:%M%P %B %d', time.localtime(sum(struct.unpack('>d',p['_ts']))/1e6)).replace(' 0', ' ')
+                    posts.append(p)
                 return posts
-                #return [Post.get(id) for id in PostOrder.get(userid).values()]
             except pycassa.NotFoundException:
                 return []
 
