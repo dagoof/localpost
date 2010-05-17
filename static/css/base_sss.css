@@ -13,7 +13,7 @@ html{
 
 body{
     margin:0;
-    padding:0;
+    padding:0 0 2em 0;
     color:#f9f2e8;
     font:12px/1 freesans, sans-serif;
 }

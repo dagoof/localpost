@@ -2,23 +2,16 @@
 <html>
     <head>
         <meta charset='utf-8' />
-        <title>localpost</title>
         <link rel='stylesheet' href='/static/css/base_sss.css' />
         <script type='text/javascript' src='/static/js/jquery-1.4.2.min.js'></script>
-        <script type='text/javascript' src='/static/js/lib.js'></script>
+        {% block scripts %}{% endblock %}
     </head>
     <body>
         <div id='header_container'>
-            :<a href='/list'>localpost</a>.<a href='/user/{{ user["name"] }}'>{{ user['name'] }}</a>
+            {% block header %}{% endblock %}
         </div>
         <div id='content_container'>
-            {% for post in posts %}
-            <div class='content_post'>{{ post['body'] }}
-                <div class='post_sig'>
-                    <a href='/post/{{ post["id"] }}'>{{ post['tstring'] }}</a>
-                </div>
-            </div>
-            {% endfor %}
+            {% block content %}{% endblock %}
         </div>
     </body>
 </html>

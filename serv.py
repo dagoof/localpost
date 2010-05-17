@@ -16,6 +16,7 @@ def render_template(template_name, **context):
 
 urls=(
     '/user/(.*)', 'User',
+    '/post/(.*)', 'Post',
     '/list', 'ListUser',
 )
 
@@ -26,7 +27,7 @@ PostOrder=pycassa.ColumnFamily(client, 'localpost', 'postorder', dict_class=Orde
 
 class ListUser:
     def GET(self):
-        return render_template('index.html', users=[u[1] for u in Users.get_range()])
+        return render_template('index_template.html', users=[u[1] for u in Users.get_range()])
 
 class User:
     def GET(self, name):
@@ -49,7 +50,7 @@ class User:
 
         user=get_userid(name)
         if user:
-            return render_template('base_template.html', user=user, posts=get_posts(user['id']))
+            return render_template('user_template.html', user=user, posts=get_posts(user['id']))
 
 if __name__=='__main__':
     app=web.application(urls, globals())
