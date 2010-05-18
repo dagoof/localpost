@@ -62,6 +62,9 @@ a.current, a:hover{
 .odd{
     background-color:#404553;
     border-radius:.6em;
+    -moz-border-radius:.6em;
+    -webkit-box-shadow:1px 3px 7px #2e323e;
+    -moz-box-shadow:2px 2px 7px #2e323e;
 }
 
 .post_sig{
