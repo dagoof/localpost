@@ -59,12 +59,13 @@ a.current, a:hover{
     /*border-bottom:1px solid #515562;*/
 }
 
-.odd{
+.content_post:nth-child(2n){
     background-color:#404553;
     border-radius:.6em;
     -moz-border-radius:.6em;
+    box-shadow:1px 3px 7px #2e323e;
     -webkit-box-shadow:1px 3px 7px #2e323e;
-    -moz-box-shadow:2px 2px 7px #2e323e;
+    -moz-box-shadow:1px 3px 7px #2e323e;
 }
 
 .post_sig{
