@@ -1,0 +1,17 @@
+{% extends 'base_template.html' %}
+{% block scripts %}
+<title>localpost.{{ user['name'] }}</title>
+<script type='text/javascript' src='/static/js/lib.js'></script>
+{% endblock %}
+{% block header %}
+:<a href='/list'>localpost</a>.<a href='/user/{{ user["name"] }}'>{{ user['name'] }}</a>
+{% endblock %}
+{% block content %}
+{% for post in posts %}
+            <div class='content_post'>{{ post['body'] }}
+                <div class='post_sig'>
+                    <a href='/note/{{ post["id"] }}'>{{ post['tstring'] }}</a>
+                </div>
+            </div>
+{% endfor %}
+{% endblock %}
