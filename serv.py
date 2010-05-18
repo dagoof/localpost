@@ -16,7 +16,7 @@ def render_template(template_name, **context):
 
 urls=(
     '/user/(.*)', 'User',
-    '/post/(.*)', 'Post',
+    '/note/([\w-]+)', 'Note',
     '/list', 'ListUser',
 )
 
@@ -51,6 +51,19 @@ class User:
         user=get_userid(name)
         if user:
             return render_template('user_template.html', user=user, posts=get_posts(user['id']))
+
+class Note:
+    def GET(self, postid):
+        try:
+            post=Post.get(postid)
+            post['tstring']=time.strftime(' %I:%M%P %B %d', time.localtime(sum(struct.unpack('>d',post['_ts']))/1e6)).replace(' 0', ' ')
+            user=Users.get(post['user_id'])
+            print post
+        except pycassa.NotFoundException:
+            post,user={'body':'Not found','id':'404'},{'name':'404'}
+            print post,user
+
+        return render_template('user_template.html', user=user, posts=[post])
 
 if __name__=='__main__':
     app=web.application(urls, globals())
