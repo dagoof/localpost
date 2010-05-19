@@ -63,9 +63,9 @@ a.current, a:hover{
     background-color:#404553;
     border-radius:.6em;
     -moz-border-radius:.6em;
-    box-shadow:1px 3px 7px #2e323e;
-    -webkit-box-shadow:1px 3px 7px #2e323e;
-    -moz-box-shadow:1px 3px 7px #2e323e;
+    box-shadow:1px 1px 1px #2e323e;
+    -webkit-box-shadow:1px 1px 1px #2e323e;
+    -moz-box-shadow:1px 1px 1px #2e323e;
 }
 
 .post_sig{
