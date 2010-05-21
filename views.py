@@ -10,7 +10,7 @@ class User:
         def get_userid(name):
             try:
                 return Users.get(UserName.get(name)['id'])
-            except pycassa.NotFoundException:
+            except:
                 return False
         def get_posts(userid):
             try:
@@ -20,7 +20,7 @@ class User:
                     p['tstring']=time.strftime(' %I:%M%P %B %d', time.localtime(sum(struct.unpack('>d',p['_ts']))/1e6)).replace(' 0', ' ')
                     posts.append(p)
                 return posts
-            except pycassa.NotFoundException:
+            except:
                 return []
         user=get_userid(name)
         if user:
