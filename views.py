@@ -1,5 +1,20 @@
-import time, struct, os
-from utils import render_template, Users, UserName, Posts, PostOrder
+from utils import render_template, Users, UserName, Posts, PostOrder, get_posts, get_userid, pack_post
+from forms import post_form
+import hashlib
+import web
+
+def login_met(name, passw):
+    def password_valid(n, p):
+        print get_userid(n), Users.get(get_userid(n).get('id')).get('password')
+        if hashlib.sha1(p).hexdigest()==Users.get(get_userid(n).get('id')).get('password'):
+            return True
+        else:
+            return False
+
+    if get_userid(name) and password_valid(name, passw):
+        return True
+    else:
+        return False
 
 class ListUser:
     def GET(self):
@@ -7,33 +22,37 @@ class ListUser:
 
 class User:
     def GET(self, name):
-        def get_userid(name):
-            try:
-                return Users.get(UserName.get(name)['id'])
-            except:
-                return False
-        def get_posts(userid):
-            try:
-                posts=[]
-                for post in PostOrder.get(userid, column_reversed=True).values():
-                    p=Posts.get(post)
-                    p['tstring']=time.strftime(' %I:%M%P %B %d', time.localtime(sum(struct.unpack('>d',p['_ts']))/1e6)).replace(' 0', ' ')
-                    posts.append(p)
-                return posts
-            except:
-                return []
         user=get_userid(name)
+        print user
         if user:
+            print get_posts(user['id'])
             return render_template('user_template.html', user=user, posts=get_posts(user['id']))
 
 class Note:
     def GET(self, postid):
         try:
-            post=Posts.get(postid)
-            post['tstring']=time.strftime(' %I:%M%P %B %d', time.localtime(sum(struct.unpack('>d',post['_ts']))/1e6)).replace(' 0', ' ')
+            post=pack_post(postid)
             user=Users.get(post['user_id'])
-            print post
-        except pycassa.NotFoundException:
+        except:
             post,user={'body':'Not found','id':'404'},{'name':'404'}
-            print post,user
         return render_template('user_template.html', user=user, posts=[post])
+
+class Login:
+    def GET(self):
+        f=post_form()
+        return render_template('login.html',f=f)
+
+    def POST(self):
+        f=post_form()
+        if f.validates():
+            print 'validated'
+            username=f.username.value
+            password=f.password.value
+            user=get_userid(username)
+            print username, password, user
+            if user and user.get('password')==hashlib.sha1(password).hexdigest():
+                sessionid=web.input(sessionid='300')
+                web.setcookie('sessionid', sessionid, 3600)
+                raise web.seeother('/list')
+        print 'back to login @_@'
+        return render_template('login.html', f=f)

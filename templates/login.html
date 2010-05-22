@@ -1,0 +1,15 @@
+{% extends 'base_template.html' %}
+{% block scripts %}
+<title>localpost.</title>
+{% endblock %}
+{% block header %}
+:<a href='/list'>localpost</a>
+{% endblock %}
+{% block content %}
+        <div class='content_post embossed'>
+            <form method='POST'>
+                {{ f.render() }}
+                <input type='submit'>
+            </form>
+        </div>
+{% endblock %}

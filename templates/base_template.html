@@ -7,6 +7,19 @@
         {% block scripts %}{% endblock %}
     </head>
     <body>
+        <div id='login' >
+            <ul>
+            {% if logged_in %}
+                <li><a href='/dashboard'>Dashboard</a></li>
+                <li><a href='/settings'>Settings</a></li>
+                <li><a href='/logout'>Logout</a></li>
+            {% else %}
+                <li><a href='/about'>About us</a></li>
+                <li><a href='/new'>New features</a></li>
+                <li><a href='/login'>Login</a></li>
+            {% endif %}
+            </ul>
+        </div>
         <div id='header_container'>
             {% block header %}{% endblock %}
         </div>

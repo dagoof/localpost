@@ -3,9 +3,10 @@ import pycassa, hashlib, struct, uuid, time
 client=pycassa.connect()
 Users=pycassa.ColumnFamily(client, 'localpost', 'Users')
 UserName=pycassa.ColumnFamily(client, 'localpost', 'UserName')
-Poste=pycassa.ColumnFamily(client, 'localpost', 'post')
-PostOrder=pycassa.ColumnFamily(client, 'localpost', 'postorder')
-
+Posts=pycassa.ColumnFamily(client, 'localpost', 'Posts')
+PostOrder=pycassa.ColumnFamily(client, 'localpost', 'Postorder')
+Followers=pycassa.ColumnFamily(client, 'localpost', 'Followers')
+Sessions=pycassa.ColumnFamily(client, 'localpost', 'Sessions')
 
 def _long(ts):
     return struct.pack('>d', long(ts))
@@ -15,7 +16,7 @@ def addUser(user):
     UserName.insert(user.name, {'id': user.id})
 
 def addPost(post):
-    Poste.insert(post.id, post.dumps())
+    Posts.insert(post.id, post.dumps())
     PostOrder.insert(post.author, {post._ts: post.id})
 
 class User:
@@ -56,8 +57,8 @@ class Post:
             'id':self.id,
             '_ts':self._ts}
 
-        
-
+#class Session:
+    #def __init__(self, user, 
 
 
     

@@ -1,5 +1,5 @@
 var zebra=function(){
-    $('.content_post:odd').addClass('odd');
+    $('.content_post:odd').addClass('embossed');
 }
 
 var boldItems=function(){
@@ -12,5 +12,5 @@ var boldItems=function(){
 
 $(function(){
         zebra();
-        boldItems();
+        //boldItems();
 });

@@ -13,7 +13,7 @@ html{
 
 body{
     margin:0;
-    padding:0 0 2em 0;
+    padding:2em 0 2em 0;
     color:#f9f2e8;
     font:12px/1 freesans, sans-serif;
 }
@@ -28,20 +28,50 @@ a.current, a:hover{
     text-decoration:underline;
 }
 
+#login{
+    font-size:1.2em;
+    margin:0 auto;
+    width:32em;
+    /*
+    font-family: 'GoudyBookletter1911Regular', Georgia, serif;
+    */
+    text-shadow:0px -1px 1px #000;
+}
+
+#login ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+    overflow:hidden;
+}
+
+#login li{
+    float:left;
+    text-transform:lowercase;
+    margin:0;
+    padding:.4em 0 .4em 1em;
+}
+
+#login li:last-of-type{
+    float:right;
+    padding-right:1em;
+}
+
 #header_container{
+    margin:0 auto;
     padding:.6em 0;
     font-size:7em;
     font-family: 'GoudyBookletter1911Regular', Georgia, serif;
-    text-shadow:1px 1px 4px #000000;
+    text-shadow:1px 1px 4px #000;
     text-align:center;
 }
 
-#header_container a, #header_container a.visited{
+#login a, #login a.visited, #header_container a, #header_container a.visited{
     font-weight:normal;
     color:#f9f2e8;
 }
 
-#header_container a.current, #header_container a:hover{
+#login a.current, #login a:hover, #header_container a.current, #header_container a:hover{
     color:#b1aaa0;
     text-decoration:none;
 }
@@ -52,6 +82,17 @@ a.current, a:hover{
     font-size:1.2em;
 }
 
+#content_container input{
+    /*border:1px solid #27272a;*/
+    border:0px;
+    background-color:#35353d;
+    /*background:#35353d -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,.0)), to(rgba(255,255,255,.4)));*/
+    -webkit-box-shadow:0px -1px 1px #1e1e20;
+    -moz-box-shadow:0px -1px 1px #1e1e20;
+    border-radius:.3em;
+    color:#f9f2e8;
+}
+
 .content_post{
     padding:.7em 1em;
     text-align:left;
@@ -59,7 +100,18 @@ a.current, a:hover{
     /*border-bottom:1px solid #515562;*/
 }
 
+/*
 .content_post:nth-child(2n){
+    background-color:#404553;
+    border-radius:.6em;
+    -moz-border-radius:.6em;
+    box-shadow:1px 1px 1px #2e323e;
+    -webkit-box-shadow:1px 1px 1px #2e323e;
+    -moz-box-shadow:1px 1px 1px #2e323e;
+}
+*/
+
+.embossed{
     background-color:#404553;
     border-radius:.6em;
     -moz-border-radius:.6em;

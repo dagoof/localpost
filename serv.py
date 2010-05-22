@@ -4,6 +4,7 @@ urls=(
     '/user/(.*)', 'views.User',
     '/note/([\w-]+)', 'views.Note',
     '/list', 'views.ListUser',
+    '/login', 'views.Login',
 )
 
 if __name__=='__main__':
