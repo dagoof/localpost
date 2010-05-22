@@ -19,6 +19,10 @@ def addPost(post):
     Posts.insert(post.id, post.dumps())
     PostOrder.insert(post.author, {post._ts: post.id})
 
+def addSession(session):
+    Sessions.insert(session.id, session.dumps())
+    Users.insert(session.user_id, {'current_session':session.id})
+
 class User:
     def __init__(self, name, password):
         self.name=name
@@ -57,10 +61,27 @@ class Post:
             'id':self.id,
             '_ts':self._ts}
 
-#class Session:
-    #def __init__(self, user, 
+class Session:
+    def __init__(self, user):
+        self.user_id=user.get('id')
+        self.user_name=user.get('name')
+        self.id=uuid.uuid4().get_hex()
+        self.status=user.get('type', 'member')
+
+    def __repr__(self):
+        return '<{object} {id}: {status} - {user}, {userid}>'.format(
+            object=self.__class__.__name__,
+            id=self.id,
+            status=self.status,
+            user=self.user_name,
+            userid=self.user_id)
+
+    def dumps(self):
+        return {'user_id':self.user_id,
+            'id':self.id,
+            'status':self.status,
+            'user_name':self.user_name}
 
 
-    
 # {'zzqNate':'lolfag', 'peter':'bear', 'diggs':'diggs', 'linda':'linda', 'sasucker':'da', 'gwoolhurme', 'gwouel', 'gus':'gus', 'tenaciousp':'tenp'}
 #u={'Frostfist':'ffist', 'Pontifica':'pont', 'Shadereign':'sreign', 'SlowCow':'slow', 'Stimpsy':'stimp', 'Rizenbul':'riz', 'geheim':'geh', 'EarthQuail':'eq', 'shadowyrn':'swyn'}

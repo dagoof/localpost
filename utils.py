@@ -2,6 +2,7 @@ from jinja2 import Environment,FileSystemLoader,PackageLoader
 from odict import OrderedDict
 from allocate import User, Post, addUser, addPost
 import pycassa, time, struct, os
+import web
 
 client=pycassa.connect()
 Users=pycassa.ColumnFamily(client, 'localpost', 'Users')
@@ -18,6 +19,12 @@ def render_template(template_name, **vars):
 def get_userid(name):
     try:
         return Users.get(UserName.get(name).get('id'))
+    except:
+        return False
+
+def get_session(sessionid):
+    try:
+        return Sessions.get(sessionid)
     except:
         return False
 
@@ -38,15 +45,30 @@ def get_posts(userid):
     finally:
         return posts
 
+def requireLogin(f):
+    def call(*args, **kwargs):
+        session=web.cookies().get('localpost_sessionid')
+        if get_session(session):
+            try:
+                user=Users.get(get_sessions(session).get('user_id'))
+                if user.get('current_session')==session:
+                    kwargs.update({'logged_in':True})
+                    return f(*args, **kwargs)
+            except:
+                print 'exception'
+                raise web.seeother('/login')
+        else:
+            print 'no session'
+            raise web.seeother('/login')
+    return call
+
 class RequireLogin:
     def __init__(self, function):
         self._function=function
-
     def logged_in(self):
-        #Cookie shit
-        return True
+        return web.cookies().get('sessionid')
     def __call__(self, *args, **kwargs):
-        if logged_in:
-            return self._function(*args, **kwargs)
+        if self.logged_in():
+            return self._function(self._function, *args, **kwargs)
         else:
             raise web.seeother('/login')
