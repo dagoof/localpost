@@ -6,3 +6,6 @@ post_form=form.Form(
     form.Textbox('username', val_name, description='Username'),
     form.Password('password', val_pass, description='Password'),
 )
+note_form=form.Form(
+    form.Textarea('note_body', description='New Post'),
+)

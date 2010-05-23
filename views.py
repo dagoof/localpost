@@ -1,7 +1,7 @@
 from utils import *
 from allocate import Session, addSession
 #render_template, Users, UserName, Posts, PostOrder, get_posts, get_userid, pack_post, RequireLogin, requirelogin
-from forms import post_form
+from forms import post_form, note_form
 import hashlib
 import web
 
@@ -17,13 +17,13 @@ class User:
 
 class Note:
     @requireLogin
-    def GET(self, postid, **kwargs):
+    def GET(self, postid):
         try:
             post=pack_post(postid)
             user=Users.get(post['user_id'])
         except:
             post,user={'body':'Not found','id':'404'},{'name':'404'}
-        return render_template('user_template.html', user=user, posts=[post], **kwargs)
+        return render_template('user_template.html', user=user, posts=[post])
 
 class Login:
     def GET(self):
@@ -41,3 +41,18 @@ class Login:
                 web.setcookie('localpost_sessionid', s.dumps().get('id'), 604800)
                 raise web.seeother('/list')
         return render_template('login.html', f=f)
+
+class NewNote:
+    def GET(self):
+        f=note_form()
+        return render_template('login.html', f=f)
+
+    @requireLogin
+    def POST(self):
+        f=note_form()
+        if f.validates():
+            note_body=f.note_body.value
+            user=Users.get(get_session(web.cookies().get('localpost_sessionid')).get('user_id'))
+            addPost(Post(user.get('name'), note_body))
+            raise web.seeother('/user/{u}'.format(u=user.get('name')))
+        return render_template('login.html',f=f)

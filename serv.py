@@ -12,6 +12,7 @@ urls=(
     '/note/([\w-]+)', 'views.Note',
     '/list', 'views.ListUser',
     '/login', 'views.Login',
+    '/new_note', 'views.NewNote',
 )
 
 if __name__=='__main__':
