@@ -12,8 +12,9 @@ PostOrder=pycassa.ColumnFamily(client, 'localpost', 'Postorder', dict_class=Orde
 Followers=pycassa.ColumnFamily(client, 'localpost', 'Followers')
 Sessions=pycassa.ColumnFamily(client, 'localpost', 'Sessions')
 
+jinja_env=Environment(loader=PackageLoader('serv', 'templates'))
+
 def render_template(template_name, **vars):
-    jinja_env=Environment(loader=PackageLoader('serv', 'templates'))
     return jinja_env.get_template(template_name).render(vars)
 
 def get_userid(name):
@@ -49,16 +50,9 @@ def requireLogin(f):
     def call(*args, **kwargs):
         session=web.cookies().get('localpost_sessionid')
         if get_session(session):
-            try:
-                user=Users.get(get_sessions(session).get('user_id'))
-                if user.get('current_session')==session:
-                    kwargs.update({'logged_in':True})
-                    return f(*args, **kwargs)
-            except:
-                print 'exception'
-                raise web.seeother('/login')
+            kwargs.update({'logged_in':True})
+            return f(*args, **kwargs)
         else:
-            print 'no session'
             raise web.seeother('/login')
     return call
 
