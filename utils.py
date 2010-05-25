@@ -57,7 +57,7 @@ def get_timeline(userid):
     posts=[]
     try:
         for post in FollowerOrder.get(userid, column_reversed=True).values():
-            p=Post.get(post)
+            p=Posts.get(post)
             posts.append(pack_post(post))
     except:
         print 'none found'

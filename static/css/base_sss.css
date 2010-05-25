@@ -100,6 +100,7 @@ input, textarea{
 textarea{
     width:22em;
     height:10em;
+    font-family: freesans, sans-serif;
 }
 
 .button{
@@ -144,15 +145,11 @@ textarea{
 
 .post_sig{
     text-align:right;
-}
-
-.post_sig sub{
     vertical-align:bottom;
-    font-size:.6em;
+    font-size:.8em;
 }
 
 .post_sig a{
-    font-size:.8em;
     font-weight:normal;
     text-shadow:1px 1px 0px #393e4d;
 }

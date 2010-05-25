@@ -17,14 +17,24 @@ def addUser(user):
     UserName.insert(user.name, {'id': user.id})
 
 def addPost(post):
+    print 'posting'
     Posts.insert(post.id, post.dumps())
-    PostOrder.insert(post.author, {post._ts: post.id})
-    for follower in Followers.get(post.author):
-        FollowerOrder.insert(post.author, {post._ts: post.id})
+    print post.id, post.dumps()
+    PostOrder.insert(post.author_id, {post._ts: post.id})
+    for follower in get_followers(post.author_id):
+        print 'follower'
+        print follower, post.id
+        FollowerOrder.insert(follower, {post._ts: post.id})
 
 def addSession(session):
     Sessions.insert(session.id, session.dumps())
     Users.insert(session.user_id, {'current_session':session.id})
+
+def get_followers(userid):
+    try:
+        return Followers.get(userid)
+    except:
+        return []
 
 class User:
     def __init__(self, name, password):
@@ -46,7 +56,8 @@ class User:
 
 class Post:
     def __init__(self, author, body):
-        self.author=UserName.get(author)['id']
+        self.author_id=UserName.get(author)['id']
+        self.author=author
         self.body=body
         self.id=uuid.uuid4().get_hex()
         self._ts=_long(int(time.time()*1e6))
@@ -55,11 +66,12 @@ class Post:
         return '<{object} {id}: {author}, {body}>'.format(
             object=self.__class__.__name__,
             id=self.id,
-            author=self.author,
+            author_id=self.author_id,
             body=self.body[:50])
 
     def dumps(self):
-        return {'user_id':self.author,
+        return {'user_id':self.author_id,
+            'user_name':self.author,
             'body':self.body,
             'id':self.id,
             '_ts':self._ts}

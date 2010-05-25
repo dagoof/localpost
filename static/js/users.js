@@ -19,7 +19,7 @@ function ajaxreq(){
             for(var elem in res){
                 elem=res[elem];
                 for(var item in elem){
-                    $('<div></div>').addClass('content_post').html(item+"<div class='post_sig'><a href='/follow/"+item+"'>follow</a></div>").insertAfter($('#form_container'));
+                    $('<div></div>').addClass('content_post').html(item+"<div class='post_sig'><a href='/toggle_follow/"+item+"'>follow</a></div>").insertAfter($('#form_container'));
                 }
             }
         },
