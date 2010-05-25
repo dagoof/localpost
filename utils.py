@@ -9,6 +9,7 @@ Users=pycassa.ColumnFamily(client, 'localpost', 'Users')
 UserName=pycassa.ColumnFamily(client, 'localpost', 'UserName')
 Posts=pycassa.ColumnFamily(client, 'localpost', 'Posts')
 PostOrder=pycassa.ColumnFamily(client, 'localpost', 'Postorder', dict_class=OrderedDict)
+FollowerOrder=pycassa.ColumnFamily(client, 'localpost', 'FollowerOrder', dict_class=OrderedDict)
 Followers=pycassa.ColumnFamily(client, 'localpost', 'Followers')
 Sessions=pycassa.ColumnFamily(client, 'localpost', 'Sessions')
 

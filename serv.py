@@ -13,6 +13,8 @@ urls=(
     '/list', 'views.ListUser',
     '/login', 'views.Login',
     '/new_note', 'views.NewNote',
+    '/gen_users/([\w-]+)', 'views.GenerateUsers',
+    '/follow', 'views.Follow',
 )
 
 if __name__=='__main__':

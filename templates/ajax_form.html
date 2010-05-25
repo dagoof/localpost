@@ -1,0 +1,17 @@
+{% extends 'base_template.html' %}
+{% block scripts %}
+<title>localpost.</title>
+{% endblock %}
+{% block header %}
+:<a href='/list'>localpost</a>
+<script type='text/javascript' src='/static/js/users.js'></script>
+{% endblock %}
+{% block content %}
+        <div id='form_container' class='content_post embossed centered'>
+            <form>
+                <input type='text' id='username' name='username'>
+            </form>
+            <div id='input'>
+            </div>
+        </div>
+{% endblock %}

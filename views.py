@@ -1,9 +1,14 @@
 from utils import *
+import simplejson
 from allocate import Session, addSession
 #render_template, Users, UserName, Posts, PostOrder, get_posts, get_userid, pack_post, RequireLogin, requirelogin
 from forms import post_form, note_form
 import hashlib
 import web
+
+class GenerateUsers:
+    def GET(self, name):
+        return simplejson.dumps([{u[1].get('name'):u[1].get('id')} for u in Users.get_range() if name in u[1].get('name')])
 
 class ListUser:
     def GET(self):
@@ -14,6 +19,10 @@ class User:
         user=get_userid(name)
         if user:
             return render_template('user_template.html', user=user, posts=get_posts(user['id']))
+
+class Follow:
+    def GET(self):
+        return render_template('ajax_form.html')
 
 class Note:
     @requireLogin
@@ -28,7 +37,7 @@ class Note:
 class Login:
     def GET(self):
         f=post_form()
-        return render_template('login.html',f=f)
+        return render_template('generic_form.html',f=f)
 
     def POST(self):
         f=post_form()
@@ -40,12 +49,12 @@ class Login:
                 addSession(s)
                 web.setcookie('localpost_sessionid', s.dumps().get('id'), 604800)
                 raise web.seeother('/list')
-        return render_template('login.html', f=f)
+        return render_template('generic_form.html', f=f)
 
 class NewNote:
     def GET(self):
         f=note_form()
-        return render_template('login.html', f=f)
+        return render_template('generic_form.html', f=f)
 
     @requireLogin
     def POST(self):
@@ -55,4 +64,4 @@ class NewNote:
             user=Users.get(get_session(web.cookies().get('localpost_sessionid')).get('user_id'))
             addPost(Post(user.get('name'), note_body))
             raise web.seeother('/user/{u}'.format(u=user.get('name')))
-        return render_template('login.html',f=f)
+        return render_template('generic_form.html',f=f)

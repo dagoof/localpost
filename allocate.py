@@ -5,6 +5,7 @@ Users=pycassa.ColumnFamily(client, 'localpost', 'Users')
 UserName=pycassa.ColumnFamily(client, 'localpost', 'UserName')
 Posts=pycassa.ColumnFamily(client, 'localpost', 'Posts')
 PostOrder=pycassa.ColumnFamily(client, 'localpost', 'Postorder')
+FollowerOrder=pycassa.ColumnFamily(client, 'localpost', 'FollowerOrder')
 Followers=pycassa.ColumnFamily(client, 'localpost', 'Followers')
 Sessions=pycassa.ColumnFamily(client, 'localpost', 'Sessions')
 
