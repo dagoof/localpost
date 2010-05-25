@@ -33,6 +33,9 @@ def get_session(sessionid):
     except:
         return False
 
+def get_current_user():
+    return Users.get(get_session(web.cookies().get('localpost_sessionid')).get('user_id'))
+
 def pack_post(postid):
     p=Posts.get(postid)
     p['tstring']=time.strftime(' %I:%M%P %B %d', time.localtime(sum(struct.unpack('>d',p['_ts']))/1e6)).replace(' 0', ' ')
@@ -46,6 +49,17 @@ def get_posts(userid):
             posts.append(pack_post(post))
     except:
         #TODO: 404?
+        print 'none found'
+    finally:
+        return posts
+
+def get_timeline(userid):
+    posts=[]
+    try:
+        for post in FollowerOrder.get(userid, column_reversed=True).values():
+            p=Post.get(post)
+            posts.append(pack_post(post))
+    except:
         print 'none found'
     finally:
         return posts

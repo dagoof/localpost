@@ -12,9 +12,12 @@ urls=(
     '/note/([\w-]+)', 'views.Note',
     '/list', 'views.ListUser',
     '/login', 'views.Login',
-    '/new_note', 'views.NewNote',
     '/gen_users/([\w-]+)', 'views.GenerateUsers',
+
+    '/new_note', 'views.NewNote',
     '/follow', 'views.Follow',
+    '/toggle_follow/([\w-]+)', 'views.ToggleFollowing',
+    '/timeline', 'views.Timeline',
 )
 
 if __name__=='__main__':

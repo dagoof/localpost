@@ -11,7 +11,6 @@ function sethooks(){
 }
 
 function ajaxreq(){
-    $('#input').text(['/gen_users/',name].join(''));
     $.ajax({
         url:['/gen_users/',name].join(''),
         success:function(response){

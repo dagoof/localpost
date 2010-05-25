@@ -19,6 +19,8 @@ def addUser(user):
 def addPost(post):
     Posts.insert(post.id, post.dumps())
     PostOrder.insert(post.author, {post._ts: post.id})
+    for follower in Followers.get(post.author):
+        FollowerOrder.insert(post.author, {post._ts: post.id})
 
 def addSession(session):
     Sessions.insert(session.id, session.dumps())

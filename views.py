@@ -24,16 +24,6 @@ class Follow:
     def GET(self):
         return render_template('ajax_form.html')
 
-class Note:
-    @requireLogin
-    def GET(self, postid):
-        try:
-            post=pack_post(postid)
-            user=Users.get(post['user_id'])
-        except:
-            post,user={'body':'Not found','id':'404'},{'name':'404'}
-        return render_template('user_template.html', user=user, posts=[post])
-
 class Login:
     def GET(self):
         f=post_form()
@@ -51,6 +41,15 @@ class Login:
                 raise web.seeother('/list')
         return render_template('generic_form.html', f=f)
 
+class Note:
+    def GET(self, postid):
+        try:
+            post=pack_post(postid)
+            user=Users.get(post['user_id'])
+        except:
+            post,user={'body':'Not found','id':'404'},{'name':'404'}
+        return render_template('user_template.html', user=user, posts=[post])
+
 class NewNote:
     def GET(self):
         f=note_form()
@@ -65,3 +64,18 @@ class NewNote:
             addPost(Post(user.get('name'), note_body))
             raise web.seeother('/user/{u}'.format(u=user.get('name')))
         return render_template('generic_form.html',f=f)
+
+class Timeline:
+    @requireLogin
+    def GET(self):
+        user=Users.get(get_session(web.cookies().get('localpost_sessionid')).get('user_id'))
+        return render_template('user_template.html', user=user, posts=get_timeline(user['id']))
+        user=get_userid
+
+class ToggleFollow:
+    @requireLogin
+    def GET(self, name):
+        followee=get_userid(name)
+        user=get_current_user()
+        if followee:
+            Followers.insert(user['id'], followee)
